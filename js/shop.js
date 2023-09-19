@@ -73,22 +73,44 @@ var total = 0;
 
 // Exercise 1
 function buy(id) {
+    for (let i = 0; i < products.length; i++) {
+        if (id == products[i].id) {
+            cartList.push(products[i])
+        }
+    }
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
 }
 
 // Exercise 2
 function cleanCart() {
-
+    cartList.length = 0;
 }
 
 // Exercise 3
 function calculateTotal() {
-    // Calculate total price of the cart using the "cartList" array
+    let soFarCart = 0;
+    for (let i = 0; i < cartList.length; i++) {
+soFarCart += cartList[i].price;
+  }
 }
+// Calculate total price of the cart using the "cartList" array
 
 // Exercise 4
 function generateCart() {
+    for (let i = 0; i < cartList.length; i++) {
+        // Buscamos si el producto ya está en el carrito
+        let existingProduct = cart.find(product => product.id === cartList[i].id)
+    
+        if (existingProduct) {
+          // Si ya existe, aumentamos la cantidad en 1
+          existingProduct.quantity += 1;
+        } else {
+          // Si no existe, agregamos el producto con cantidad 1
+          const newProduct = { ...cartList[i], quantity: 1 };
+          cart.push(newProduct);
+        }
+      }
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 }
