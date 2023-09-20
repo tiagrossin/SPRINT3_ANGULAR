@@ -99,19 +99,33 @@ function calculateTotal() {
 
 // Exercise 4
 function generateCart() {
-  for (let i = 0; i < cartList.length; i++) {
-    let found = cart.find((product) => product.id === cartList[i].id);
+  const productCounts = {};
 
-    if (found) {
-      found.quantity++;
+  for (let i = 0; i < cartList.length; i++) {
+    const productId = cartList[i].id;
+
+    if (productCounts[productId]) {
+      productCounts[productId]++;
     } else {
-      const newProduct = { ...cartList[i], quantity: 1 };
-      cart.push(newProduct);
+      productCounts[productId] = 1;
     }
   }
-  // Using the "cartlist" array that contains all the items in the shopping cart,
-  // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+
+  cart.length = 0;
+
+  for (const productId in productCounts) {
+    const product = cartList.find((item) => item.id == productId);
+    if (product) {
+      const productWithQuantity = {
+        ...product,
+        quantity: productCounts[productId],
+      };
+      cart.push(productWithQuantity);
+    }
+  }
 }
+// Using the "cartlist" array that contains all the items in the shopping cart,
+// generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 
 // Exercise 5
 function applyPromotionsCart() {
