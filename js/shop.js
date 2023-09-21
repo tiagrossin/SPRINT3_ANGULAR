@@ -80,15 +80,18 @@ function buy(id) {
   }
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cartList array
+  cartNotif();
   generateCart();
   applyPromotionsCart();
   calculateTotal();
-  console.log(cart);
 }
 
 // Exercise 2
 function cleanCart() {
-  cartList.length = 0;
+  cartList = [];
+  document.getElementById("cart_list").innerHTML = " ";
+  document.getElementById("total_price").innerHTML = "0";
+  cartNotif();
 }
 
 // Exercise 3
@@ -97,7 +100,7 @@ function calculateTotal() {
   for (const product of cart) {
     soFarCart += product.subtotalWithDiscount;
   }
-  document.getElementById("total_price").innerHTML = soFarCart;
+  document.getElementById("total_price").innerHTML = soFarCart.toFixed(2);
 }
 // Calculate total price of the cart using the "cartList" array
 
@@ -153,15 +156,15 @@ function applyPromotionsCart() {
 
 // Exercise 6
 function printCart() {
-  cart.forEach((product) => {
-    let printedCart = document.getElementById("cart_list");
+  const printedCart = document.getElementById("cart_list");
+  printedCart.innerHTML = " ";
 
-    printedCart.innerHTML += 
-    ` <tr>
+  cart.forEach((product) => {
+    printedCart.innerHTML += ` <tr>
   <th scope="row">${product.name}</th>
   <td>${product.price}</td>
   <td>${product.quantity}</td>
-  <td>${product.subtotalWithDiscount}</td>
+  <td>${product.subtotalWithDiscount.toFixed(2)}</td>
 </tr>`;
   });
   // Fill the shopping cart modal manipulating the shopping cart dom
@@ -185,4 +188,13 @@ function removeFromCart(id) {
 function open_modal() {
   console.log("Open Modal");
   printCart();
+}
+
+function cartNotif() {
+  const tally = document.getElementById("count_product");
+  let productCount = 0;
+  cartList.forEach((product) => {
+    productCount++;
+  });
+tally.innerHTML = productCount;
 }
