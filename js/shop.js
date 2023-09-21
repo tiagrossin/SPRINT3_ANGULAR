@@ -2,7 +2,7 @@
 var products = [
   {
     id: 1,
-    name: "cooking oil",
+    name: "Cooking Oil",
     price: 10.5,
     type: "grocery",
     offer: {
@@ -82,6 +82,7 @@ function buy(id) {
   // 2. Add found product to the cartList array
   generateCart();
   applyPromotionsCart();
+  calculateTotal();
   console.log(cart);
 }
 
@@ -93,9 +94,10 @@ function cleanCart() {
 // Exercise 3
 function calculateTotal() {
   let soFarCart = 0;
-  for (let i = 0; i < cartList.length; i++) {
-    soFarCart += cartList[i].price;
+  for (const product of cart) {
+    soFarCart += product.subtotalWithDiscount;
   }
+  document.getElementById("total_price").innerHTML = soFarCart;
 }
 // Calculate total price of the cart using the "cartList" array
 
@@ -151,6 +153,17 @@ function applyPromotionsCart() {
 
 // Exercise 6
 function printCart() {
+  cart.forEach((product) => {
+    let printedCart = document.getElementById("cart_list");
+
+    printedCart.innerHTML += 
+    ` <tr>
+  <th scope="row">${product.name}</th>
+  <td>${product.price}</td>
+  <td>${product.quantity}</td>
+  <td>${product.subtotalWithDiscount}</td>
+</tr>`;
+  });
   // Fill the shopping cart modal manipulating the shopping cart dom
 }
 
