@@ -165,7 +165,9 @@ function printCart() {
   <td>${product.price}</td>
   <td>${product.quantity}</td>
   <td>${product.subtotalWithDiscount.toFixed(2)}</td>
-  <button class="btn-danger" onclick="removeFromCart(${product.id})">Delete from cart</button>
+  <button class="btn-danger" onclick="removeFromCart(${
+    product.id
+  })">Delete from cart</button>
 </tr>`;
   });
   // Fill the shopping cart modal manipulating the shopping cart dom
@@ -198,8 +200,6 @@ function removeFromCart(id) {
     printCart();
   }
 }
-
-
 
 function open_modal() {
   console.log("Open Modal");
