@@ -165,6 +165,7 @@ function printCart() {
   <td>${product.price}</td>
   <td>${product.quantity}</td>
   <td>${product.subtotalWithDiscount.toFixed(2)}</td>
+  <button class="btn-danger" onclick="removeFromCart()">Delete from cart</button>
 </tr>`;
   });
   // Fill the shopping cart modal manipulating the shopping cart dom
@@ -180,7 +181,8 @@ function addToCart(id) {
 }
 
 // Exercise 8
-function removeFromCart(id) {
+function removeFromCart() {
+  alert("LOL");
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cartList array
 }
@@ -196,5 +198,5 @@ function cartNotif() {
   cartList.forEach((product) => {
     productCount++;
   });
-tally.innerHTML = productCount;
+  tally.innerHTML = productCount;
 }

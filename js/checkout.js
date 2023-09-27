@@ -1,7 +1,11 @@
 
 // Exercise 6
-function validate() {
-	var error = 0;
+function validate(event) {
+	//Regular expresions filter
+	var lettersOnly = /^[A-Za-z]+$/;
+    var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,3})+$/;
+    var numberFormat = /^\d{9}$/;
+    var passwordFormat = /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/;
 	// Get the input fields
 	var fName = document.getElementById("fName");
 	var fEmail = document.getElementById("fEmail");
