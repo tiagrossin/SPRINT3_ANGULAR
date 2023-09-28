@@ -89,9 +89,11 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
   cartList = [];
+  cart = [];
   document.getElementById("cart_list").innerHTML = " ";
   document.getElementById("total_price").innerHTML = "0";
   cartNotif();
+  printCart();
 }
 
 // Exercise 3
@@ -211,6 +213,9 @@ function cartNotif() {
   let productCount = 0;
   cartList.forEach((product) => {
     productCount++;
+    if (cart == []) {
+      productCount = 0;
+    }
   });
   tally.innerHTML = productCount;
 }
