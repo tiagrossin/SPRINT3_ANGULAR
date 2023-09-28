@@ -80,29 +80,27 @@ function buy(id) {
   }
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cartList array
-  cartNotif();
-  generateCart();
-  applyPromotionsCart();
-  calculateTotal();
 }
 
 // Exercise 2
 function cleanCart() {
-  cartList = [];
   cart = [];
   document.getElementById("cart_list").innerHTML = " ";
-  document.getElementById("total_price").innerHTML = "0";
+  document.getElementById("total_price").innerHTML = "0.00";
   cartNotif();
   printCart();
 }
 
 // Exercise 3
 function calculateTotal() {
-  let soFarCart = 0;
-  for (const product of cart) {
-    soFarCart += product.subtotalWithDiscount;
+  let totalCart = 0;
+  if (cart.length > 0) {
+    let subTotalCart = cart.map((product) => product.subtotalWithDiscount);
+    totalCart = subTotalCart.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
   }
-  document.getElementById("total_price").innerHTML = soFarCart.toFixed(2);
+  document.getElementById("total_price").innerHTML = totalCart.toFixed(2);
 }
 // Calculate total price of the cart using the "cartList" array
 
@@ -169,7 +167,7 @@ function printCart() {
   <td>${product.subtotalWithDiscount.toFixed(2)}</td>
   <button class="btn-danger" onclick="removeFromCart(${
     product.id
-  })">Delete from cart</button>
+  })">Delete from Cart</button>
 </tr>`;
   });
   // Fill the shopping cart modal manipulating the shopping cart dom
@@ -179,6 +177,22 @@ function printCart() {
 
 // Exercise 7
 function addToCart(id) {
+  const product = products.find((product) => product.id === id);
+  const productInCart = cart.find((cartProduct) => cartProduct.id === id);
+  if (productInCart) {
+    productInCart.quantity++;
+    productInCart.subtotal = productInCart.price * productInCart.quantity;
+  } else {
+    cart.push({
+      ...product,
+      quantity: 1,
+      subtotal: product.price,
+      subtotalWithDiscount: 0,
+    });
+  }
+  cartNotif();
+  applyPromotionsCart();
+  calculateTotal();
   // Refactor previous code in order to simplify it
   // 1. Loop for to the array products to get the item to add to cart
   // 2. Add found product to the cart array or update its quantity in case it has been added previously.
@@ -186,19 +200,17 @@ function addToCart(id) {
 
 // Exercise 8
 function removeFromCart(id) {
-  const index = cart.findIndex((product) => product.id === id);
+  const productInCart = cart.find((cartProduct) => cartProduct.id === id);
+  if (productInCart) {
+    productInCart.quantity--;
+    productInCart.subtotal = productInCart.price * productInCart.quantity;
 
-  if (index !== -1) {
-    cart[index].quantity--;
-
-    if (cart[index].quantity === 0) {
-      cart.splice(index, 1);
+    if (productInCart.quantity === 0) {
+      cart.splice(cart.indexOf(productInCart), 1);
     }
-
     cartNotif();
     applyPromotionsCart();
     calculateTotal();
-
     printCart();
   }
 }
@@ -211,11 +223,13 @@ function open_modal() {
 function cartNotif() {
   const tally = document.getElementById("count_product");
   let productCount = 0;
-  cartList.forEach((product) => {
-    productCount++;
-    if (cart == []) {
-      productCount = 0;
-    }
-  });
+  if (cart.length != 0) {
+    let cartQuantity = cart.map((product) => product.quantity);
+    productCount = cartQuantity.reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+    );
+  } else {
+    productCount = 0;
+  }
   tally.innerHTML = productCount;
 }
